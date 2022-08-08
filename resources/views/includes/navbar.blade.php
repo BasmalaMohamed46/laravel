@@ -37,6 +37,18 @@
                  
                 </ul>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Posts
+                </a>
+   
+                <ul class="dropdown-menu">
+                  <li  class="{{Route::currentRouteName() == "posts.index" ? 'active': "" ; }}">  <a class="dropdown-item" href="{{route('posts.index')}}">List</a></li>
+                  <li class="{{Route::currentRouteName() == "posts.create" ? 'active': "" ; }}"><a class="dropdown-item" href="{{route('posts.create')}}">New Post</a></li>
+                  
+                 
+                </ul>
+              </li>
              
           </div>
         </div>

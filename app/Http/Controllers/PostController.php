@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Post;
 
-class UserController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
-        return view ('users.index')->with(['users'=> $users]);
+        $posts = Post::paginate(10);
+        return view('posts.index')->with(['posts'=> $posts]);
 
     }
 
@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('posts.create');
     }
 
     /**
@@ -38,9 +38,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        User::create($input);
+        Post::create($input);
         
-        return redirect('users');
+        return redirect('posts');
     }
 
     /**
@@ -51,8 +51,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        return view('users.show')->with(['users'=> $user]);
+        $post = Post::find($id);
+        return view('posts.show')->with(['posts'=> $post]);
     }
 
     /**
@@ -63,8 +63,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('users.edit')->with(['users'=> $user]);
+        $post = Post::find($id);
+        return view('posts.edit')->with(['posts'=> $post]);
         
     }
 
@@ -77,10 +77,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     { 
-        $user = User::find($id);
+        $post = Post::find($id);
         $input = $request->all();
-        $user->update($input);
-       return redirect('users') ;
+        $post->update($input);
+       return redirect('posts') ;
     }
 
     /**
@@ -91,9 +91,25 @@ class UserController extends Controller
      */
     public function destroy($id)
     { 
-        $user=User::find($id);
-        $user->delete();
-        return redirect('users');
+        $post=Post::find($id);
+        $post->delete();
+        return redirect('posts');
     
     }
+    public function deleted()
+    {
+        $post = Post::onlyTrashed()->get();
+
+       return view('posts.rdelete')->with('posts',$post);
+    }
+
+  
+
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->where('id',$id);
+        $post->restore();
+        return redirect('posts');
+    }
 }
+    
